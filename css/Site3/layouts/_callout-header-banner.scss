@@ -1,0 +1,31 @@
+$select: ".callout-header-banner" !default;
+
+// config
+@use "./../config/fonts";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/background";
+
+@mixin base {
+    #{$select} {
+        @include background.color-map(
+            $background-color: var(--color-second),
+            $text-color: white
+        ) {
+            text-align: center;
+            padding: 2.5rem 1rem;
+        }
+
+        &__title {
+            font-size: clamp(fonts.em(20), 5vw, fonts.em(40));
+            font-weight: 800;
+            line-height: 1.1;
+            text-transform: uppercase;
+
+            max-width: 44ch;
+            margin-inline: auto;
+        }
+
+        @content;
+    }
+}

@@ -1,0 +1,98 @@
+$select: ".page-section-nav" !default;
+
+// config
+@use "./../config/colors";
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/group";
+@use "Shared/scss/templates/base/abstracts/background";
+
+@mixin base {
+    #{$select} {
+        container: user-action / inline-size;
+
+        position: sticky;
+        top: var(--scrollable-content-height);
+        z-index: 1;
+
+        transition: 0.3s ease-in-out;
+
+        @include background.color-map(
+            $background-color: #ededed,
+            $text-color: currentColor
+        ) {
+            border-radius: 1rem;
+
+            @include group.contain-flex($gap: 0.5rem) {
+                padding: 0.75rem;
+            }
+
+            justify-content: center;
+            align-items: center;
+        }
+
+        &__active-item {
+            color: var(--color-second);
+        }
+
+        &__link {
+            font-weight: 700;
+
+            transition: 0.3s ease-in-out;
+
+            &:not(:hover):not(:focus) {
+                text-decoration: none;
+            }
+
+            &:hover,
+            &:focus {
+                color: var(--color-second);
+            }
+        }
+
+        &__combobox {
+            flex-basis: 100%;
+        }
+
+        @container (inline-size < 970px) {
+            #{$select} {
+                &__link {
+                    display: none;
+                }
+            }
+        }
+
+        @container (inline-size >= 970px) {
+            #{$select} {
+                &__combobox {
+                    display: none;
+                }
+            }
+        }
+
+        @content;
+    }
+}
+
+@mixin is-scrolling {
+    #{$select} {
+        &--is-scrolling {
+            border-radius: 0;
+
+            #{$select} {
+            }
+
+            @media all and (min-width: queries.get(section-max)) {
+                margin-inline: -50%;
+            }
+
+            @media all and (max-width: queries.get(section-max)) {
+                margin-inline: -1rem;
+            }
+
+            @content;
+        }
+    }
+}

@@ -1,0 +1,61 @@
+$select: ".list-video" !default;
+
+// config
+@use "./../config/queries";
+@use "./../config/fonts";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/group";
+@use "Shared/scss/templates/base/abstracts/list";
+
+@mixin base {
+    #{$select} {
+        &__group {
+            @include group.contain($gutter: 1rem) {
+                align-items: center;
+            }
+            #{$select} {
+                &__item {
+                    flex: 1 1 23em;
+                    @media all and (max-width: queries.get(document-mobile-portrait)) {
+                        max-width: 25em;
+                    }
+                }
+            }
+        }
+
+        &__list {
+            font-weight: 800;
+            font-size: fonts.em(55);
+            line-height: 0.9;
+            text-transform: uppercase;
+            color: var(--color-first);
+
+            @include list.structure($offset: 1.5rem, $gap: 1.75rem);
+            @include list.background-icon(
+                $url: "/images/Site1/logo-arrow.svg"
+            ) {
+                margin-right: 0.3em;
+                transform: scale(0.75);
+            }
+            max-width: 6.2em;
+            margin: 0 auto;
+        }
+
+        &__footer {
+            text-align: left;
+            margin: 2em auto 0;
+            font-size: fonts.rem(20);
+        }
+
+        &__video {
+            flex-basis: queries.em(637);
+        }
+
+        @media all and (max-width: queries.set(700)) {
+            font-size: 0.8em;
+        }
+
+        @content;
+    }
+}

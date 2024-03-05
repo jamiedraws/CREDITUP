@@ -1,0 +1,37 @@
+// utils
+@use "Shared/scss/templates/base/utils/scope";
+@use "Shared/scss/templates/base/utils/svg-icon";
+
+// components
+@use "./../components/validation-summary-errors" as vse;
+@use "./../components/validate";
+@use "./../components/form";
+@use "./../components/status-screen";
+
+// layouts
+@use "./../layouts/fieldset";
+
+@mixin lead {
+    // utils
+    @include svg-icon.base;
+    @include svg-icon.combobox;
+
+    // components
+    @include validate.base;
+    @include vse.base;
+
+    @include form.base;
+    @include form.field-icon;
+    @include form.field-label;
+    @include form.select;
+    @include form.checkbox;
+    @include form.radio;
+    @include form.inline-combobox-label;
+    @include form.cvv;
+
+    @include status-screen.initialize;
+
+    // layouts
+    @include fieldset.base;
+    @include fieldset.signup;
+}

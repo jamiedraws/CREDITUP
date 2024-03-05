@@ -1,0 +1,78 @@
+// utils
+@use "Shared/scss/templates/base/utils/scope";
+@use "./../utils/contain";
+
+// components
+@use "./../components/button";
+@use "./../components/list";
+@use "./../components/card";
+@use "./../components/download-app";
+
+// layouts
+@use "./../layouts/hero";
+@use "./../layouts/list-video";
+@use "./../layouts/text-with-button";
+@use "./../layouts/review";
+@use "./../layouts/content";
+@use "./../layouts/accordion";
+@use "./../layouts/conf";
+@use "./../layouts/blockquote-card";
+@use "./../layouts/callout-header-banner";
+@use "./../layouts/application-process";
+@use "./../layouts/video-quote-download-app";
+
+@mixin base {
+    // components
+    @include scope.for-template {
+        @include button.base;
+        @include button.circular;
+    }
+
+    @include list.base;
+
+    // layouts
+    @include content.base;
+
+    @content;
+}
+
+@mixin index {
+    // utils
+    @include contain.base;
+
+    // components
+    @include download-app.base;
+
+    // layouts
+    @include hero.base;
+    @include list-video.base;
+    @include application-process.base;
+    @include review.base;
+    @include content.faq;
+    @include blockquote-card.base;
+    @include callout-header-banner.base;
+    @include video-quote-download-app.base;
+
+    @content;
+}
+
+@mixin faq {
+    // utils
+
+    // components
+    @include card.base;
+    @include card.shadow-containers;
+
+    // layouts
+    @include accordion.base;
+}
+
+@mixin confirmation {
+    // utils
+
+    // components
+
+    // layouts
+    @include conf.base;
+    @include application-process.conf;
+}

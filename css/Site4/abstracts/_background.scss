@@ -1,0 +1,25 @@
+// config
+@use "./../config/queries";
+
+// abstracts
+@forward "Shared/scss/templates/base/abstracts/background";
+@use "Shared/scss/templates/base/abstracts/background" as _background;
+
+@mixin arrow-pattern($background-color: var(--color-first)) {
+    @include _background.color-map($background-color, $text-color: white) {
+        position: relative;
+
+        &::before {
+            content: "";
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+
+            background: url(/images/Site1/bkg-logo-arrow.svg) repeat top left;
+            background-size: 40%;
+            opacity: 0.02;
+        }
+
+        @content;
+    }
+}

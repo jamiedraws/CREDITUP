@@ -1,0 +1,361 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<ClientSiteViewData>" %>
+<%@ Import Namespace="Dtm.Framework.ClientSites" %>
+<%@ Import Namespace="CREDITUP.UIComponents" %>
+<%@ Import Namespace="CREDITUP.Utils" %>
+<%@ Import Namespace="CREDITUP.Navigation" %>
+<%@ Import Namespace="CREDITUP.Models" %>
+<%@ Import Namespace="CREDITUP.Text" %>
+
+<% 
+	var getFacebookImage = SettingsManager.ContextSettings["SocialPlugins.Facebook.OpenGraphImage"];
+	var getTwitterImage = SettingsManager.ContextSettings["SocialPlugins.Twitter.OpenGraphImage"]; 
+
+	var isStartPage = DtmContext.Page.IsStartPageType;
+
+	NavigationList sitemap = (ViewData["Sitemap"] as Sitemap ?? new Sitemap()).SitemapList;
+	NavigationItem app = sitemap.GetItemById("app");
+	var showAppIcons = sitemap.HasItem(app);
+	var howLink = sitemap.GetItemById("how-it-works");
+
+	string productName = SettingsManager.ContextSettings["Label.ProductName"];
+%>
+
+<!DOCTYPE html>
+<html class="dtm" lang="en">
+
+	<head>
+
+		<title><%= Model.PageTitle %></title>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="<%= Model.PageMetaDescription %>">
+	    <meta name="keywords" content="<%= Model.PageMetaKeywords %>">
+		<% var androidThemeBarColor = SettingsManager.ContextSettings["AndroidThemeBarColor", "#ffffff"]; %>
+		<meta name="theme-color" content="<%= androidThemeBarColor %>">
+
+		<!-- // Open Graph Metadata -->
+		<meta property="og:title" content="<%= Model.PageTitle %>">
+		<meta property="og:type" content="website">
+		<meta property="og:description" content="<%= Model.PageMetaDescription %>">
+		<meta property="og:url" content="<%= DtmContext.Domain.FullDomainOfferVersionUrl(DtmContext.PageCode) %>">
+		<meta property="og:image" content="<%= getFacebookImage %>">
+
+		<!-- // Twitter Metadata  -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="<%= Model.PageTitle %>">
+		<meta name="twitter:description" content="<%= Model.PageMetaDescription %>">
+		<meta name="twitter:image" content="<%= getTwitterImage %>">
+		<meta name="twitter:domain" content="<%= DtmContext.Domain.FullDomainOfferVersionUrl(DtmContext.PageCode) %>">
+
+		<%
+			var mainSeoDomain = DtmContext.CampaignDomains
+				.Where(cd => cd.IsSEO).FirstOrDefault() 
+				?? DtmContext.CampaignDomains
+				.Where(cd => cd.IsIndexable).FirstOrDefault() 
+				?? DtmContext.Domain;
+
+			string canonicalUrl = DtmContext.PageCode.Equals("Index") 
+				? mainSeoDomain.FullDomainContext 
+				: mainSeoDomain.FullDomainCustomPathContext(DtmContext.Page.PageAlias) + DtmContext.ApplicationExtension;
+
+			canonicalUrl = canonicalUrl.Replace("http://", "https://");
+		%>
+
+	    <% if (DtmContext.IsProxyIpAddress || DtmContext.CampaignDomains.Any(d => d.DomainId == DtmContext.DomainId && d.Domain.ToLower().Contains("dtmstage"))) { %>
+
+	        <meta name="robots" content="noindex, nofollow">
+
+	    <% } else { %>
+
+	        <meta name="google-site-verification" content="<%= Model.PageMetaVerify %>">
+            <meta name="msvalidate.01" content="617F9E44E7841BBC8E57FE0772BB9DD9">
+	        <link rel="canonical" href="<%= canonicalUrl %>">
+
+	    <% } %>
+
+		<link rel="preconnect" href="https://use.typekit.net/" crossorigin>
+        <link rel="dns-prefetch" href="https://use.typekit.net/">
+		<link rel="stylesheet" href="https://use.typekit.net/hhc5jfb.css">
+
+		<%
+			ResourceWriter resourceWriter = new ResourceWriter();
+			
+			Response.Write(resourceWriter.WriteStylePreload("css/Site3/style.css"));
+			Response.Write(resourceWriter.WriteLink("css/Site3/style.css"));
+			Response.Write(resourceWriter.WriteScript("js/Site3/app.es5.js"));
+		%>
+
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="theme-color" content="#ffffff">
+		<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0118/2532.js" async="async"></script>
+		<asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+
+	</head>
+
+	<body class="dtm__in">
+
+		<% Html.RenderPartial("Header", Model); %>
+
+		<%
+			OrderButton orderButton = new OrderButton();
+		%>
+
+		<main aria-labelledby="main-title" class="view hero section">
+			<div id="main" class="view__anchor"></div>
+			<div class="view__in section__contain">
+				<div class="hero__group">
+					<div class="hero__photo">
+						<div class="view__scroll">
+							<picture>
+								<source srcset="/images/Site3/family-photo.webp" type="image/webp">
+								<img width="631" height="670" src="/images/Site3/family-photo.jpg" alt="A guy standing in front of a truck">
+							</picture>
+							<div class="hero__bkg-text">
+								<div class="hero__title-container">
+									<h1 id="main-title" class="hero__title">
+										The Quick, Easy Way to get the credit you need.
+									</h1>
+								</div>
+								<small class="hero__disclaimer">Member FDIC. Loans subject to approval</small>
+							</div>
+						</div>
+					</div>
+					<div class="hero__form" <%= orderButton.ApplyAttributes() %>>
+						<asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<section aria-label="Features" class="view list-video section">
+			<div id="features" class="view__anchor"></div>
+			<div class="view__in section__in">
+				<div class="section__block">
+					<div class="list-video__group">
+						<div class="list-video__item">
+							<ul class="list-video__list">
+								<li>No Fees</li>
+								<li>Lower<br>Interest<br>Rates</li>
+								<li>Banked<br>In the USA</li>
+							</ul>
+							<%--<p class="list-video__footer">We&rsquo;re 5Star Bank, a full-service community bank based in Colorado, member FDIC. The best there is in Credit Building.</p>--%>
+						</div>
+						<div class="list-video__video">
+							<div class="video contain contain--video">
+								<iframe src="https://player.vimeo.com/video/786293007?h=2471619c44&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="<%= productName %> 60 TV spot" width="637" height="358" loading="lazy"></iframe>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section aria-labelledby="callout-header-title" class="view section">
+			<div id="callout-header" class="view__anchor"></div>
+			<div class="view__in section__contain">
+				<div class="callout-header-banner">
+					<h2 class="callout-header-banner__title" id="callout-header-title">
+						Over 100 Million People in the United States Struggle with Low or No Credit.* <em>You Need A Lift! </em>
+					</h2>
+				</div>
+			</div>
+		</section>
+
+		<section aria-labelledby="download-app-title" class="view application-process section">
+			<div id="download-app" class="view__anchor"></div>
+			<div class="view__in section__in">
+				<div class="application-process__grid">
+					<div class="application-process__header">
+						<h2 class="application-process__title" id="download-app-title">Welcome to the simplest way to save and build the credit you need.</h2>
+						<p>We&rsquo;re 5Star Bank, a full-service community bank based in Colorado, member FDIC. <b>The best there is in Credit Building.</b></p>
+
+						<p>The process couldn&rsquo;t be easier, just follow these 3 easy steps...</p>
+					</div>
+					<ul class="application-process__step-list">
+						<li>
+							<div class="application-process__step">
+								<h3>Easy Application Process</h3>
+								<p>No hard credit pull on your credit profile. Accounts are FDIC insured.</p>
+							</div>
+						</li>
+						<li>
+							<div class="application-process__step">
+								<h3>Pick Your Plan</h3>
+								<p>Choose to build credit over 12, 18, or 24 months with a payment that fits your budget. (Low Interest Rate // Administrative Fees - $0)</p>
+							</div>
+						</li>
+						<li>
+							<div class="application-process__step">
+								<h3>Watch Your Savings And Credit Score Grow</h3>
+								<p>Enter how much money you'd like to save over the term you choose, and CreditUp calculates your total loan amount and monthly payment.</p>
+							</div>
+						</li>
+					</ul>
+					<div class="application-process__footer">
+						<%
+							NavigationItem howItWorksLink = sitemap.GetItemById("how-it-works");
+
+							if (sitemap.HasItem(howItWorksLink))
+							{
+								%>
+								<p><a href="<%= howItWorksLink.Page %>">Click here</a> to get more information on how the program works.</p>
+								<%
+							}
+						%>
+
+						<p class="application-process__note"><strong>Note:</strong> You will not receive money upfront. The CreditUp credit builder is not a cash loan.</p>
+					</div>
+					<div class="application-process__download-app">
+						<h3 class="application-process__callout">
+							<span>Download App <b>Today!</b></span>
+						</h3>
+						<div class="application-process__buttons">
+							<a href="https://apps.apple.com/us/app/creditup-by-5star-bank/id6448131930" class="application-process__button" target="_blank" aria-labelledby="apple-app-image" id="apple-app-download">
+								<img id="apple-app-image" src="/images/Site1/apple-app-button.svg" alt="Download on the Apple App Store" loading="lazy" width="120" height="40">
+							</a>
+							<a href="https://play.google.com/store/apps/details?id=com.fivestar.macedon.creditup.android" class="application-process__button" target="_blank" aria-labelledby="google-play-image" id="google-play-app-download">
+								<img id="google-play-image" src="/images/Site1/google-play-button.png" alt="Get it on Google play" loading="lazy" width="135" height="40">
+							</a>
+						</div>
+						<picture class="application-process__picture">
+							<source srcset="/images/Site1/iphone.webp" type="image/webp">
+							<img src="/images/Site1/iphone.png" alt="iPhone device showing the home screen" loading="lazy" width="272" height="450">
+						</picture>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<figure class="view blockquote-card section">
+			<div class="view__in section__contain blockquote-card__card">
+				<picture class="blockquote-card__picture">
+					<img src="/images/Site3/mike-headshot.png" alt="Michael League headshot" width="275" height="264" loading="lazy">
+				</picture>
+				<blockquote class="blockquote-card__blockquote">I&rsquo;ve seen first hand how bad credit can make life hard. That&rsquo;s why we started CreditUp, to help you build a better life.</blockquote>
+				<figcaption class="blockquote-card__figcaption">
+					<span class="blockquote-card__name">Michael League</span>
+					<i class="blockquote-card__title">Founder, CreditUp by 5Star Bank</i>
+				</figcaption>
+			</div>
+		</figure>
+
+		<section aria-labelledby="customer-reviews-title" class="view review section">
+			<div id="reviews" class="view__anchor"></div>
+			<svg hidden>
+				<symbol id="stars" x="0px" y="0px" viewBox="0 0 137 26">
+					<polygon points="26.8,10.4 16.8,10.2 13.5,0.8 10.2,10.2 0.3,10.4 8.2,16.5 5.3,26 13.5,20.4 21.7,26 18.9,16.5"/>
+					<polygon points="54.2,10.4 44.3,10.2 41,0.8 37.7,10.2 27.8,10.4 35.6,16.5 32.8,26 41,20.4 49.2,26 46.3,16.5"/>
+					<polygon points="81.7,10.4 71.8,10.2 68.5,0.8 65.2,10.2 55.2,10.4 63.1,16.5 60.3,26 68.5,20.4 76.7,26 73.8,16.5"/>
+					<polygon points="109.2,10.4 99.3,10.2 96,0.8 92.7,10.2 82.7,10.4 90.6,16.5 87.8,26 96,20.4 104.2,26 101.3,16.5"/>
+					<polygon points="136.7,10.4 126.8,10.2 123.5,0.8 120.1,10.2 110.2,10.4 118.1,16.5 115.3,26 123.5,20.4 131.6,26 128.8,16.5"/>
+				</symbol>
+			</svg>
+			<div class="view__in section__in">
+				<div class="section__block">
+					<div class="review__group">
+						<header class="review__header">
+							<h2 id="customer-reviews-title" class="review__title">Don't Just Take Our Word For It.</h2>
+							<p>Check out what some of our satisfied customers are saying about <b><%= productName %>.</b></p>
+							<%
+								NavigationItem reviewLink = sitemap.GetItemById("review");
+								
+								if (sitemap.HasItem(reviewLink))
+								{
+									%>
+									<a href="<%= reviewLink %>">Click here to view more 5 star customer reviews</a>
+									<%
+								}
+							%>
+						</header>
+						<figure class="review__figure">
+							<picture>
+								<img src="/images/Site1/review-1.jpg" alt="Guy standing in front of a truck" width="350" height="213" loading="lazy">
+							</picture>
+							<svg class="review__stars stars">
+								<use href="#stars"></use>
+							</svg>
+							<blockquote>Better Credit got me a better rate on my new truck loan.</blockquote>
+							<figcaption>Joseph</figcaption>
+						</figure>
+						<figure class="review__figure">
+							<picture>
+								<img src="/images/Site1/review-2.jpg" alt="A family standing together" width="350" height="213" loading="lazy">
+							</picture>
+							<svg class="review__stars stars">
+								<use href="#stars"></use>
+							</svg>
+							<blockquote>We started our own business and I love that we can keep track of our credit on the go.</blockquote>
+							<figcaption>Jonathan &amp; Keri</figcaption>
+						</figure>
+						<figure class="review__figure">
+							<picture>
+								<img src="/images/Site1/review-3.jpg" alt="A couple standing together" width="350" height="213" loading="lazy">
+							</picture>
+							<svg class="review__stars stars">
+								<use href="#stars"></use>
+							</svg>
+							<blockquote>To get the right house for our family we needed to improve our credit.</blockquote>
+							<figcaption>Travis &amp; Shona</figcaption>
+						</figure>
+						<% if (isStartPage) { %>
+						<div class="review__footer">
+							<%= orderButton.CreateHTML() %>
+						</div>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section aria-labelledby="faq-title" class="view content content--faq section">
+			<div id="faq" class="view__anchor"></div>
+			<div class="view__in content__in section__in">
+				<div class="section__block content__header">
+					<h2 id="faq-title">Have Questions?</h2>
+					<p>Below are the top 5 questions asked.</p>
+					<%
+						NavigationItem faqLink = sitemap.GetItemById("faq");
+						
+						if (sitemap.HasItem(faqLink))
+						{
+							%>
+							<a href="<%= faqLink.Page %>">Click here to view more frequently asked questions</a>
+							<%
+						}
+					%>
+				</div>
+				<%
+                    List<FAQ> featuredFAQ = new List<FAQ> { 
+						ServiceFAQ.AccountBasics.FirstOrDefault(faq => faq.Question.ToLower().StartsWith("when can i access the funds")) ?? new FAQ(),
+						ServiceFAQ.CreditReportingAndScores.FirstOrDefault(faq => faq.Question.ToLower().StartsWith("will creditup by 5star")) ?? new FAQ(),
+						ServiceFAQ.General.FirstOrDefault(faq => faq.Question.ToLower().StartsWith("what is a creditup")) ?? new FAQ(),
+						ServiceFAQ.General.FirstOrDefault(faq => faq.Question.ToLower().StartsWith("what do i need")) ?? new FAQ(),
+						ServiceFAQ.AccountBasics.FirstOrDefault(faq => faq.Question.ToLower().StartsWith("what can i expect")) ?? new FAQ(),
+					}.Where(f => !string.IsNullOrEmpty(f.Question) && !string.IsNullOrEmpty(f.Answer)).ToList();
+
+                    string faqHTML = FAQAccordion.CreateCategorySection(new FAQSection
+                    {
+                        Code = "TOP",
+                        Id = "top-questions",
+                        Name = "Top 5 Questions"
+                    }, featuredFAQ, FAQAccordion.HTMLContainer);
+
+					faqHTML = faqHTML.Replace(@"class=""card""", @"class=""card card--shadow-containers""");
+
+					Response.Write(faqHTML);
+				%>
+			</div>
+		</section>
+
+		<% Html.RenderPartial("Footer", Model); %>
+
+	</body>
+
+</html>
+

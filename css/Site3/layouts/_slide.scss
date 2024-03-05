@@ -1,0 +1,42 @@
+$select: ".slide" !default;
+
+// config
+
+// layouts
+@use "Shared/scss/templates/base/layouts/slide" with (
+    $select: $select
+);
+
+// abstracts
+@use "./../abstracts/background";
+
+@mixin base {
+    @include slide.base {
+        &__into {
+            max-width: 100vw;
+            width: 100%;
+            margin: auto;
+
+            align-items: center;
+        }
+
+        @media all and (min-width: slide.$desktop) {
+            $length: 65em;
+            $offset: 4em;
+
+            &__into {
+                max-width: #{$length};
+                width: calc(100% - #{$offset});
+            }
+
+            &__nav {
+                max-width: calc(#{$length} + #{$offset});
+                width: 100%;
+            }
+        }
+    }
+
+    #{$select} {
+        @content;
+    }
+}

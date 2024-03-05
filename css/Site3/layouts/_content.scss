@@ -1,0 +1,55 @@
+$select: ".content" !default;
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/list";
+@use "Shared/scss/templates/base/abstracts/space";
+@use "./../abstracts/text";
+
+@mixin base {
+    #{$select} {
+        ul {
+            @include list.structure($offset: 2rem, $gap: 1rem);
+            @include list.bullet($bullet: "•", $size: 1em) {
+                color: var(--color-first);
+                transform: scale(1.75);
+                position: relative;
+                top: -0.33em;
+            }
+
+            ul:not(:first-child) {
+                margin-top: 1rem;
+
+                li::before {
+                    color: var(--color-second);
+                }
+            }
+        }
+
+        &__header {
+            @include text.section-header;
+        }
+
+        &__text {
+            font-size: 1.125em;
+
+            @include space.between-flow-elements($gap: 1rem) {
+            }
+        }
+
+        @content;
+    }
+}
+
+@mixin faq {
+    #{$select} {
+        &--faq {
+            #{$select} {
+                &__in {
+                    border-top: 2px solid #ccc;
+                }
+            }
+
+            @content;
+        }
+    }
+}

@@ -1,0 +1,101 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<OrderPageViewData>" %>
+<%@ Import Namespace="Dtm.Framework.ClientSites" %>
+<%@ Import Namespace="CREDITUP.UIComponents" %>
+<%@ Import Namespace="CREDITUP.Utils" %>
+
+<% 
+	var getFacebookImage = SettingsManager.ContextSettings["SocialPlugins.Facebook.OpenGraphImage"];
+	var getTwitterImage = SettingsManager.ContextSettings["SocialPlugins.Twitter.OpenGraphImage"]; 
+
+	var isStartPage = DtmContext.Page.IsStartPageType;
+%>
+
+<!DOCTYPE html>
+<html class="dtm" lang="en">
+
+	<head>
+
+		<title><%= Model.PageTitle %></title>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="<%= Model.PageMetaDescription %>">
+	    <meta name="keywords" content="<%= Model.PageMetaKeywords %>">
+		<% var androidThemeBarColor = SettingsManager.ContextSettings["AndroidThemeBarColor", "#ffffff"]; %>
+		<meta name="theme-color" content="<%= androidThemeBarColor %>">
+
+		<!-- // Open Graph Metadata -->
+		<meta property="og:title" content="<%= Model.PageTitle %>">
+		<meta property="og:type" content="website">
+		<meta property="og:description" content="<%= Model.PageMetaDescription %>">
+		<meta property="og:url" content="<%= DtmContext.Domain.FullDomainOfferVersionUrl(DtmContext.PageCode) %>">
+		<meta property="og:image" content="<%= getFacebookImage %>">
+
+		<!-- // Twitter Metadata  -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="<%= Model.PageTitle %>">
+		<meta name="twitter:description" content="<%= Model.PageMetaDescription %>">
+		<meta name="twitter:image" content="<%= getTwitterImage %>">
+		<meta name="twitter:domain" content="<%= DtmContext.Domain.FullDomainOfferVersionUrl(DtmContext.PageCode) %>">
+
+		<%
+			var mainSeoDomain = DtmContext.CampaignDomains
+				.Where(cd => cd.IsSEO).FirstOrDefault() 
+				?? DtmContext.CampaignDomains
+				.Where(cd => cd.IsIndexable).FirstOrDefault() 
+				?? DtmContext.Domain;
+
+			string canonicalUrl = DtmContext.PageCode.Equals("Index") 
+				? mainSeoDomain.FullDomainContext 
+				: mainSeoDomain.FullDomainCustomPathContext(DtmContext.Page.PageAlias) + DtmContext.ApplicationExtension;
+
+			canonicalUrl = canonicalUrl.Replace("http://", "https://");
+		%>
+
+	    <% if (DtmContext.IsProxyIpAddress || DtmContext.CampaignDomains.Any(d => d.DomainId == DtmContext.DomainId && d.Domain.ToLower().Contains("dtmstage"))) { %>
+
+	        <meta name="robots" content="noindex, nofollow">
+
+	    <% } else { %>
+
+	        <meta name="google-site-verification" content="<%= Model.PageMetaVerify %>">
+            <meta name="msvalidate.01" content="617F9E44E7841BBC8E57FE0772BB9DD9">
+	        <link rel="canonical" href="<%= canonicalUrl %>">
+
+	    <% } %>
+
+		<link rel="preconnect" href="https://use.typekit.net/" crossorigin>
+        <link rel="dns-prefetch" href="https://use.typekit.net/">
+		<link rel="stylesheet" href="https://use.typekit.net/hhc5jfb.css">
+
+		<%
+			ResourceWriter resourceWriter = new ResourceWriter();
+			
+			Response.Write(resourceWriter.WriteStylePreload("css/Site3/style.css"));
+			Response.Write(resourceWriter.WriteLink("css/Site3/style.css"));
+			Response.Write(resourceWriter.WriteScript("js/Site3/app.es5.js"));
+		%>
+
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="theme-color" content="#ffffff">
+		<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0118/2532.js" async="async"></script>
+		<asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+
+	</head>
+
+	<body class="dtm__in">
+
+		<% Html.RenderPartial("Header", Model); %>
+
+		<asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+
+		<% Html.RenderPartial("Footer", Model); %>
+
+	</body>
+
+</html>

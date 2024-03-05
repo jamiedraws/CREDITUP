@@ -1,0 +1,69 @@
+// utils
+@use "Shared/scss/templates/base/utils/scope";
+@use "./../utils/contain";
+
+// components
+@use "./../components/button";
+@use "./../components/list";
+@use "./../components/card";
+@use "./../components/page-section-nav";
+
+// layouts
+@use "./../layouts/hero";
+@use "./../layouts/list-video";
+@use "./../layouts/text-with-button";
+@use "./../layouts/review";
+@use "./../layouts/content";
+@use "./../layouts/accordion";
+@use "./../layouts/conf";
+
+@mixin base {
+    // components
+    @include scope.for-template {
+        @include button.base;
+        @include button.circular;
+    }
+
+    @include list.base;
+
+    // layouts
+    @include content.base;
+
+    @content;
+}
+
+@mixin index {
+    // utils
+    @include contain.base;
+
+    // components
+
+    // layouts
+    @include hero.base;
+    @include list-video.base;
+    @include text-with-button.base;
+    @include review.base;
+
+    @content;
+}
+
+@mixin faq {
+    // utils
+
+    // components
+    @include card.base;
+    @include page-section-nav.base;
+    @include page-section-nav.is-scrolling;
+
+    // layouts
+    @include accordion.base;
+}
+
+@mixin confirmation {
+    // utils
+
+    // components
+
+    // layouts
+    @include conf.base;
+}

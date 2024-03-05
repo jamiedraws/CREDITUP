@@ -1,0 +1,80 @@
+$select: ".review" !default;
+
+// config
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/group";
+@use "Shared/scss/templates/base/abstracts/space";
+@use "./../abstracts/text";
+
+@mixin base {
+    #{$select} {
+        text-align: center;
+
+        blockquote,
+        figcaption {
+            font-size: fonts.em(20);
+            line-height: 1.25;
+        }
+
+        blockquote {
+            font-weight: 600;
+
+            &::before {
+                content: "\201C";
+            }
+
+            &::after {
+                content: "\201D";
+            }
+        }
+
+        picture {
+            border: 1px solid;
+        }
+
+        figcaption {
+            font-weight: 800;
+        }
+
+        &__group {
+            @include group.contain($gutter: 1rem) {
+            }
+        }
+
+        &__header {
+            flex-basis: 100%;
+
+            @include text.section-header;
+        }
+
+        &__title {
+            font-weight: 800;
+            font-size: fonts.em(40);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        &__footer {
+            flex-basis: 100%;
+        }
+
+        &__figure {
+            flex-basis: queries.em(350);
+
+            @include space.between-flow-elements($gap: 1rem) {
+            }
+        }
+
+        &__stars {
+            width: 10em;
+            height: 3em;
+
+            fill: var(--color-second);
+        }
+
+        @content;
+    }
+}

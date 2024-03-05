@@ -1,0 +1,28 @@
+@use "sass:map";
+
+$select: ".color" !default;
+
+$list: (
+    base: #555555,
+    primary: #016167,
+    primary-gradient: linear-gradient(#173449, #016167),
+    accent: #324b6b,
+    hero-background: #d8d8d8
+);
+
+@function get($name) {
+    @return map.get($list, $name);
+}
+
+@mixin selectors {
+    #{$select} {
+        @each $name, $color in $list {
+            &-#{$name} {
+                color: $color;
+                font-weight: bold;
+            }
+        }
+
+        @content;
+    }
+}

@@ -1,0 +1,44 @@
+/*  EDIT ALL CUSTOM STYLES HERE */
+
+body { background:#cbcbcb; }
+
+.arrow { font: 1.5em 'PictosRegular'; float: right; margin: -21px -10px 0 0; }
+
+.FormHeadlineL {background:#03C; color:#fff; padding:.5% 0; }
+
+
+/* LARGE "ORDER NOW >" BUTTON STYLE */
+.btn_classOne { 
+	border: 1px solid #3b3b3b;
+	background-color: #535353;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(83, 83, 83)), to(rgb(15, 15, 15)));
+	background-image: -webkit-linear-gradient(top, rgb(83, 83, 83), rgb(15, 15, 15));
+	background-image: -moz-linear-gradient(top, rgb(83, 83, 83), rgb(15, 15, 15));
+	background-image: -o-linear-gradient(top, rgb(83, 83, 83), rgb(15, 15, 15));
+	background-image: -ms-linear-gradient(top, rgb(83, 83, 83), rgb(15, 15, 15));
+	background-image: linear-gradient(top, rgb(83, 83, 83), rgb(15, 15, 15));
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#535353', EndColorStr='#0f0f0f');
+	-moz-box-shadow: inset 0px 1px 0px rgba(255,255,255, 0.75);
+	-webkit-box-shadow: inset 0px 1px 0px rgba(255,255,255, 0.75);
+	box-shadow: inset 0px 1px 0px rgba(255,255,255, 0.75);
+	text-shadow: 0px -1px 0px #000;
+}
+
+/* LARGE "SUB PAGE" BUTTON STYLE */
+.btn_classTwo { 
+	border: 1px solid #3c2110;
+	margin: 10px auto;
+	background-color: #8f8f8f;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(143, 143, 143)), to(rgb(99, 99, 99)));
+	background-image: -webkit-linear-gradient(top, rgb(143, 143, 143), rgb(99, 99, 99));
+	background-image: -moz-linear-gradient(top, rgb(143, 143, 143), rgb(99, 99, 99));
+	background-image: -o-linear-gradient(top, rgb(143, 143, 143), rgb(99, 99, 99));
+	background-image: -ms-linear-gradient(top, rgb(143, 143, 143), rgb(99, 99, 99));
+	background-image: linear-gradient(top, rgb(143, 143, 143), rgb(99, 99, 99));
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#8f8f8f', EndColorStr='#636363');
+	-moz-box-shadow: inset 0px 1px 0px rgba(182,182,182, 0.75);
+	-webkit-box-shadow: inset 0px 1px 0px rgba(182,182,182, 0.75);
+	box-shadow: inset 0px 1px 0 rgba(182,182,182, 0.75);
+	text-shadow: 0px -1px 0px #000;
+}
+

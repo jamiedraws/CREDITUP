@@ -1,0 +1,123 @@
+﻿@charset UTF-8; 
+/* CSS RESET */
+body, div, dl, dt, dd, li, pre,form, fieldset, input, textarea, p, blockquote, th, td, button { margin: 0; padding: 0; }h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; font-size: 100%; font-weight: normal; }address, caption, cite, code, dfn, em, var { font-style: normal; font-weight: normal; }ol, ul { list-style: none; margin: 0; padding: 0; }table { border-collapse: collapse; border-spacing: 0; } caption, th { text-align: left; font-weight: normal; font-style: normal; }acronym, abbr, fieldset, img { border: 0;}:focus { outline: 0; } 
+
+/* GLOBAL STYLES */
+body { margin:0; padding:0; background:#FFF; font:normal 13px/18px Arial, Helvetica, sans-serif;  }
+p { margin:0 4px 10px 0; font-size:13px; line-height:18px; }
+.clearer { clear:both; margin:0; line-height:0; padding:0; }
+a img { border:none; }
+object { outline:none; }
+a:link { color:#06C; }
+a:visited { color:#06C; }
+a:hover { color:#333; }
+/*END - GLOBAL STYLES*/
+
+#mainContainer { width:900px; height:auto; margin:0 auto; background:#fff; }
+
+/* SUB CONTENT */
+#subLeft { float:left; width:550px; margin:15px 0 0 15px; padding:0; }
+#subLeft h2 { font-size:24px; margin:10px 0 15px 0; padding:0; }
+#subRight { float:right; width:300px; margin:10px 15px 0 0; padding:0; }
+/* END - SUB CONTENT */
+
+/* FORM SECTION */
+#formWrap { width:100%; margin:10px auto; }
+#formTitle { width:100%; margin:0 auto; }
+#form { width:350px; margin:15px 0 15px 40px; float:left; }
+#formProduct { width:auto; margin:15px 30px 15px 0; float:right; }
+
+/* FOOTER STYLES */
+#footerContentWrap { width:100%; float:none; clear:both; }
+#footerNavWrap { width:900px; margin:0 auto; padding:35px 0px 15px 0; text-align:center; font-size:12px; color:#000; }
+#footerNavWrap ul { margin:0px; padding:0px; list-style:none; }
+#footerNavWrap li { display:inline; border-left:solid 1px #000; padding:0px 10px; }
+#footerNavWrap li:first-child {border:none; }
+#footerNavWrap a { font-size:12px; color:#000; text-decoration:none; }
+#footerNavWrap a:hover {color:#333; text-decoration:underline; }
+p.copyright { font-size:12px; color:#000; text-align:center; margin-top:6px; }
+
+#footerContentWrap .display_mode_select {margin:0 0 -1.5% 0; padding:0; background:none;}
+#footerContentWrap .display_mode_select p {margin:0 auto;}
+#footerContentWrap .display_mode_select p a {display:block; width:100px; margin:0 auto; padding:2%; text-align:center; }
+/* END - FOOTER STYLES */
+
+/* START - DEFAULT FORM ELEMENT STYLES + BROWSER HACKS */
+.fldCt			{ clear:both; margin-bottom:2px; position:relative;}
+.fldCt .label	{ float:left; text-align:right; margin:5px 5px 0 0; width: 80px; font:normal 13px/18px Arial, Helvetica, sans-serif; }
+.fldCt .requiredIcon { display:none; }
+.fldCt.required .requiredIcon { display:inline; color:#f00; }
+.fldCt .fld input {border:1px solid #aaa; }
+.fldCt .fld input,
+.fldCt .fld select	{ width:180px; padding:3px 2px; }
+.fldCt .fld select {width:186px; }
+
+#billingInformation {padding:0 0 15px 0; border-bottom:dotted 1px #ccc; margin:0 0 15px 0; }
+.FormHeadlineL { font:bold 15px Arial, Helvetica, sans-serif; margin:0 0 15px 0; }
+
+.indicate {text-align:center;}
+.indicate span {color:#C00; }
+
+/* IE BROWSER HACKS */
+*:first-child+html .fldCt .fld input {border-color:#ccc;}
+* html .fldCt .fld input {border-color:#ccc;}
+/* CHROME & SAFARI BROWSER HACKS */
+@media screen and (-webkit-min-device-pixel-ratio:0){ 
+.fldCt .fld input, .fldCt .fld select {margin:0px; padding:5px 2px;}
+.fldCt .fld select {padding:0; }
+ }
+ 
+.validation-summary-errors {border:solid 2px #f00; background:#FCC; padding:10px; margin:0 0 10px 0;}
+.validation-summary-errors span {color:#f00; font-size:1em; }
+.validation-summary-errors ul {list-style:disc; margin:5px 15px 0 15px; }
+.validation-summary-errors ul li {color:#f00; }
+
+#form .display_mode_select {margin:0 auto; width:100%;}
+#form .display_mode_select p {}
+#form .display_mode_select p a {width:300px; display:block; background:#999; color:#fff; padding:5px 10px; border-radius:15px; text-align:center; }
+/* **END - DEFAULT FORM ELEMENT STYLES + BROWSER HACKS */
+
+/* ************************ START CONFIRMATION PAGE STYLES ************************ */
+#confirmSection { width:100%; margin:0; padding:0 0 35px; }
+
+#myAccountContentWrap {width:95%; padding:2.5%;}
+#myAccountContentWrap h1 {font:normal 30px Arial, Helvetica, sans-serif; color:#c00; margin:20px 0 10px 0; }
+
+#addressSection { width:100%; }
+#addressSection h3 {font:bold 20px/24px Arial, Helvetica, sans-serif; color:#333; margin:0 0 12px 0; }
+#addressSection p {font:normal 14px/19px Arial, Helvetica, sans-serif; color:#333; }
+#print-icon {float:right; padding:0 20px 0 0;}
+
+.orderItemsTable { width:100%; margin:10px 0; background:#fff; }
+.orderItemsTable td { font:normal 14px/19px Arial, Helvetica, sans-serif; color:#333; border:1px solid #ccc; padding:5px; }
+.orderItemsTable th { font:bold 14px/19px Arial, Helvetica, sans-serif; color:#fff; background:#c00; padding:5px; }
+
+#updateSection {width:100%; margin:10px 0;}
+
+#back-home-btn {width:100%; margin:10px 0; text-align:center; }
+/* **END CONFIRMATION STYLES */
+
+/* ************************ START flow input button STYLES ************************ */
+input[type=submit].flow_input_btn {padding:5px 12px; *padding:3px 12px; outline:none; cursor:pointer; font:normal 13px Arial, Helvetica, sans-serif; overflow:visible; position:relative; }
+input[type=submit].flow_input_btn {
+	border:solid 1px #707070; border-radius:4px; box-shadow:inset 0 0 1px 1px #fff; -moz-box-shadow:inset 0 0 1px 1px #fff; -webkit-box-shadow:inset 0 0 1px 1px #fff;
+	background: linear-gradient(top, #f2f2f2 50%, #eaeaea, #dddddd 50%, #cdcdcd);
+	background: -webkit-linear-gradient(top, #f2f2f2 50%, #eaeaea, #dddddd 50%, #cdcdcd);
+	background: -moz-linear-gradient(top, #f2f2f2 50%, #eaeaea, #dddddd 50%, #cdcdcd);
+	background: -ms-linear-gradient(top, #f2f2f2 50%, #eaeaea, #dddddd 50%, #cdcdcd);
+	background: -o-linear-gradient(top, #f2f2f2 50%, #eaeaea, #dddddd 50%, #cdcdcd);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#f2f2f2', endColorstr='#cdcdcd');
+}
+input[type=submit].flow_input_btn:hover {
+	border-color:#5c7589; color:#262b51;
+	background: linear-gradient(top, #ecf3fb 50%, #d2f1ff, #bfe5fa 50%, #acdbf7);
+	background: -webkit-linear-gradient(top, #ecf3fb 50%, #d2f1ff, #bfe5fa 50%, #acdbf7);
+	background:-moz-linear-gradient(top, #ecf3fb 50%, #d2f1ff, #bfe5fa 50%, #acdbf7);
+	background: -ms-linear-gradient(top, #ecf3fb 50%, #d2f1ff, #bfe5fa 50%, #acdbf7);
+	background: -o-linear-gradient(top, #ecf3fb 50%, #d2f1ff, #bfe5fa 50%, #acdbf7);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ecf3fb', endColorstr='#acdbf7');
+}
+.gecko:active {bottom:-2px; right:-1px;}
+/* **END dtm input button STYLES */
+
+#visonOffers { margin-bottom:100px; }

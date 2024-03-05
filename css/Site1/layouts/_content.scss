@@ -1,0 +1,51 @@
+$select: ".content" !default;
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/list";
+@use "Shared/scss/templates/base/abstracts/space";
+
+@mixin base {
+    #{$select} {
+        ul {
+            @include list.structure($offset: 2rem, $gap: 1rem);
+            @include list.bullet($bullet: "•", $size: 1em) {
+                color: var(--color-first);
+                transform: scale(1.75);
+                position: relative;
+                top: -0.33em;
+            }
+            
+
+            ul:not(:first-child) {
+                margin-top: 1rem;
+
+                li::before {
+                    color: var(--color-second);
+                }
+            }
+        }
+
+        &__text {
+            font-size: 1.125em;
+
+            @include space.between-flow-elements($gap: 1rem) {
+            }
+            // > ul {
+            //     @include list.background-icon(
+            //         $url: "/images/Site1/logo-arrow.svg"
+            //     ) {
+            //         margin-right: 0.3em;
+            //         margin-top: 0.2em;
+            //         transform: scale(0.75);
+            //     }
+            // }
+        }
+
+        &__header {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        @content;
+    }
+}

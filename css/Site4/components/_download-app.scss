@@ -1,0 +1,117 @@
+$select: ".download-app" !default;
+
+// config
+@use "./../config/colors";
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/space";
+@use "Shared/scss/templates/base/abstracts/burst";
+@use "./../abstracts/text";
+@use "./../abstracts/box";
+
+@mixin base {
+    #{$select} {
+        --radius-box-space: 2rem;
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--radius-box-space);
+
+        max-width: queries.em(410);
+        box-sizing: border-box;
+        padding: var(--radius-box-space) var(--radius-box-space) 0;
+
+        @include box.radius-with-shadow;
+
+        &__callout {
+            grid-area: callout;
+
+            flex-basis: 12em;
+
+            @include fonts.base-em(25);
+
+            font-weight: 800;
+            text-transform: uppercase;
+            line-height: 0.9;
+
+            color: var(--color-first);
+
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            &::before {
+                display: block;
+                width: 2em;
+                padding: 0.3em;
+                line-height: 0;
+                border-radius: 0.3em;
+
+                content: url(/images/Site1/logo-arrow-box.svg);
+                background: var(--color-first);
+
+                font-size: 3.5ch;
+            }
+
+            b {
+                font-size: 3.7ch;
+
+                color: var(--color-second);
+            }
+        }
+
+        &__buttons {
+            grid-area: buttons;
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--radius-box-space);
+            align-items: center;
+            justify-content: center;
+        }
+
+        &__picture {
+            grid-area: picture;
+
+            max-width: queries.em(272);
+        }
+
+        @media all and (max-width: queries.get(section-max)) {
+            display: grid;
+            grid-template-areas:
+                "callout picture"
+                "buttons picture";
+
+            max-width: none;
+
+            &__callout {
+                align-self: end;
+
+                max-width: 12em;
+            }
+
+            &__buttons {
+                align-self: start;
+            }
+
+            &__picture {
+                max-width: 10em;
+            }
+        }
+
+        @media all and (max-width: queries.set(600)) {
+            grid-template-areas: "callout" "buttons" "picture";
+            justify-items: center;
+            justify-self: center;
+
+            &__picture {
+                display: none;
+            }
+        }
+
+        @content;
+    }
+}

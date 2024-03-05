@@ -1,0 +1,123 @@
+$select: ".conf" !default;
+
+// config
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/group";
+@use "Shared/scss/templates/base/abstracts/list";
+@use "Shared/scss/templates/base/abstracts/space";
+
+@mixin base {
+    #{$select} {
+        text-align: center;
+
+        @include fonts.base-em(20);
+
+        &__header {
+            @include space.between-flow-elements($gap: 1rem) {
+            }
+        }
+
+        &__title {
+            font-weight: 800;
+            font-size: fonts.cascade-em(50);
+            line-height: 1;
+            text-transform: uppercase;
+
+            b {
+                font-weight: inherit;
+                color: var(--color-first);
+            }
+        }
+
+        &__list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            font-size: 1.25em;
+            margin: 2rem 0;
+
+            list-style: none;
+
+            & > li {
+                flex: 0 0 11em;
+                flex-direction: column;
+                margin: 2rem;
+                &::before {
+                    display: none;
+                }
+
+                @include space.between-flow-elements($gap: 0.5rem) {
+                }
+            }
+
+            &--grow {
+                font-size: 1em;
+                & > li {
+                    flex-grow: 1;
+                }
+                #{$select} {
+                    &__headline-with-arrow > * {
+                        justify-content: flex-start;
+                    }
+                }
+                @media all and (max-width: queries.get(document-mobile-portrait)) {
+                    margin: 0 !important;
+                }
+            }
+        }
+
+        &__text {
+            padding: 3rem 0;
+            border: solid #ccc;
+            border-width: 1px 0;
+
+            @include space.between-flow-elements($gap: 1rem) {
+            }
+
+            > p {
+                max-width: 40em;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        &__headline-with-arrow {
+            font-weight: 800;
+            font-size: fonts.cascade-em(50);
+            line-height: 0.9;
+            text-transform: uppercase;
+            color: var(--color-first);
+
+            > * {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                font: inherit;
+            }
+
+            @include list.background-icon(
+                $url: "/images/Site1/logo-arrow.svg"
+            ) {
+                margin-right: 0.3em;
+                transform: scale(0.75);
+            }
+        }
+
+        @media all and (max-width: queries.set(700)) {
+            &__text > &__title {
+                max-width: 8em;
+                margin: auto;
+
+                > span {
+                    display: none;
+                }
+            }
+        }
+
+        @content;
+    }
+}

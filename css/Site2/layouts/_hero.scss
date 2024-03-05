@@ -1,0 +1,126 @@
+$select: ".hero" !default;
+
+// config
+@use "./../config/queries";
+@use "./../config/fonts";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/group";
+@use "./../abstracts/background";
+
+@mixin base {
+    #{$select} {
+        position: relative;
+
+        @include background.arrow-pattern;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+
+            box-shadow: inset 0 0.2em 1em rgba(0, 0, 0, 0.5);
+        }
+
+        &__group {
+            @include group.contain(1rem);
+            align-items: center;
+
+            overflow: visible;
+        }
+
+        &__photo {
+            align-self: stretch;
+            flex-basis: queries.em(600);
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+        }
+
+        &__bkg-text {
+            position: absolute;
+            bottom: 1em;
+            left: 3em;
+
+            text-transform: uppercase;
+        }
+
+        &__title {
+            font-weight: 900;
+            font-size: fonts.em(33);
+            line-height: 1;
+
+            + small {
+                display: inline-block;
+                margin-top: 2rem;
+
+                font-size: fonts.em(13);
+                font-weight: 600;
+
+                color: black;
+                text-shadow: 0 0 1em white, 0 0 1em white, 0 0 1em white,
+                    0 0 1em white, 0 0 1em white, 0 0 1em white;
+            }
+        }
+
+        &__form {
+            flex-basis: queries.em(500);
+
+            display: flex;
+            justify-content: center;
+
+            > form[action*="Confirmation"] {
+                align-self: center;
+            }
+        }
+
+        @media all and (min-width: queries.set(1190)) {
+            &__photo {
+                margin-left: -1.5rem;
+            }
+
+            &__form {
+                padding-right: 1rem;
+            }
+
+            &__bkg-text {
+                bottom: 4.5em;
+            }
+        }
+
+        @media all and (max-width: queries.set(1190)) {
+            &__group {
+                margin-left: 0;
+                margin-right: 0;
+                overflow: hidden;
+            }
+
+            &__photo {
+                margin-left: -1rem;
+                margin-right: -1rem;
+            }
+
+            &__form {
+                flex-basis: 100%;
+            }
+
+            &__title + small {
+                margin-top: 1rem;
+            }
+        }
+
+        @media all and (max-width: queries.set(700)) {
+            &__title {
+                font-size: 2em;
+            }
+        }
+
+        @content;
+    }
+}

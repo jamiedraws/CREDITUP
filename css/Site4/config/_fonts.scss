@@ -1,0 +1,32 @@
+@use "sass:map";
+
+@forward "Shared/scss/templates/base/config/units";
+
+$select: ".font" !default;
+
+$list: (
+    base: (
+        proxima-nova,
+        Helvetica,
+        sans-serif
+    )
+);
+
+@function get($name) {
+    @return map.get($list, $name);
+}
+
+@mixin selectors {
+    #{$select} {
+        @each $name, $font in $list {
+            &-#{$name} {
+                font-family: $font;
+            }
+        }
+
+        @content;
+    }
+}
+
+@mixin request {
+}

@@ -1,0 +1,14 @@
+$select: ".stars" !default;
+
+@mixin base {
+    #{$select} {
+        width: 10em;
+        height: 3em;
+
+        polygon {
+            fill: currentColor;
+        }
+
+        @content;
+    }
+}

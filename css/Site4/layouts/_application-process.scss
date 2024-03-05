@@ -1,0 +1,169 @@
+$select: ".application-process" !default;
+
+// config
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/space";
+@use "Shared/scss/templates/base/abstracts/burst";
+@use "Shared/scss/templates/base/abstracts/group";
+@use "Shared/scss/templates/base/abstracts/background";
+@use "./../abstracts/text";
+@use "./../abstracts/box";
+
+@mixin base {
+    #{$select} {
+        --radius-box-space: 1.5rem;
+
+        @include fonts.base-em(18);
+
+        b,
+        a {
+            color: var(--color-first);
+            font-weight: bold;
+        }
+
+        &__grid {
+            @include group.contain-flex($gap: var(--radius-box-space)) {
+            }
+        }
+
+        &__header {
+            padding-block: 1.5rem;
+
+            @include space.between-flow-elements($gap: 1rem) {
+            }
+        }
+
+        &__title {
+            font-size: clamp(fonts.cascade-em(30), 5vw, fonts.cascade-em(40));
+            line-height: 1;
+            font-weight: 800;
+        }
+
+        &__step {
+            @include fonts.base-rem(16);
+
+            @include space.between-flow-elements($gap: 0.75rem) {
+            }
+
+            h3 {
+                text-transform: uppercase;
+                color: var(--color-first);
+                font-weight: 900;
+                line-height: 1;
+                font-size: fonts.cascade-em(24);
+            }
+        }
+
+        &__step-list {
+            flex-basis: 100%;
+
+            list-style: none;
+            text-align: left;
+
+            @include group.contain-flex($gap: var(--radius-box-space)) {
+            }
+
+            > li::after {
+                content: "";
+                width: queries.cascade-em(36);
+                height: queries.cascade-em(40);
+                order: -1;
+                flex-shrink: 0;
+            }
+
+            > li {
+                flex-basis: 19em;
+                flex-grow: 1;
+                display: flex;
+                gap: 1rem;
+
+                @include box.radius-with-shadow;
+                padding: var(--radius-box-space) 1.5rem;
+
+                &:nth-child(1)::after,
+                &[data-step-icon="paper"]:nth-child(n)::after {
+                    background: url(/images/Site3/icon-paper.svg) no-repeat;
+                }
+
+                &:nth-child(2)::after,
+                &[data-step-icon="cursor"]:nth-child(n)::after {
+                    background: url(/images/Site3/icon-cursor.svg) no-repeat;
+                }
+
+                &:nth-child(3)::after,
+                &[data-step-icon="bank"]:nth-child(n)::after {
+                    background: url(/images/Site3/icon-bank.svg) no-repeat;
+                }
+            }
+
+            small {
+                font-style: italic;
+            }
+        }
+
+        &__footer {
+            max-width: max-content;
+
+            padding-block: 1.5rem;
+
+            @include space.between-flow-elements($gap: 1.5rem) {
+            }
+        }
+
+        &__note {
+            @include box.border;
+
+            @include space.between-flow-elements($gap: 1rem) {
+            }
+        }
+
+        &__banner {
+            @include background.color-map(
+                $background-color: var(--color-first),
+                $text-color: white
+            ) {
+                text-align: center;
+                text-transform: capitalize;
+                padding: 1.5rem 1rem;
+
+                b {
+                    color: inherit;
+                    text-transform: uppercase;
+                    font-weight: inherit;
+                }
+            }
+        }
+
+        @content;
+    }
+}
+
+@mixin conf {
+    #{$select} {
+        &--conf {
+            text-align: center;
+
+            #{$select} {
+                &__footer {
+                    @include space.between-flow-elements($gap: 3rem) {
+                    }
+                }
+
+                &__note {
+                    font-size: 1em;
+                    text-align: center;
+                }
+
+                &__grid {
+                    border-bottom: 1px solid;
+                    padding-bottom: 2rem;
+                }
+            }
+
+            @content;
+        }
+    }
+}

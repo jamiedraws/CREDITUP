@@ -1,0 +1,68 @@
+$select: ".footer" !default;
+
+// config
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// abstracts
+@use "./../abstracts/background";
+@use "Shared/scss/templates/base/abstracts/list";
+
+@mixin base {
+    #{$select} {
+        text-align: center;
+
+        @include background.arrow-pattern;
+
+        nav {
+            @include list.structure($offset: 0);
+
+            @media all and (max-width: 640px) {
+                @include list.convert-to-grid($width: 12em) {
+                    > * {
+                        display: block;
+                        text-align: left;
+                    }
+                }
+            }
+
+            @media all and (min-width: 640px) {
+                @include list.inline;
+            }
+        }
+
+        a {
+            text-align: left;
+
+            &:not(:hover):not(:focus) {
+                text-decoration: none;
+            }
+        }
+
+        .disclaimer {
+            padding: 1em;
+            border: 1px solid #b4b4b4;
+            margin: 0 auto;
+            text-align: left;
+            font-size: 0.9em;
+            color: #b4b4b4;
+            p {
+                margin: 1em 0;
+            }
+        } 
+
+        address {
+            font-style: normal;
+        }
+
+        @media all and (max-width: queries.get(document-mobile-portrait)) {
+            overflow: hidden;
+
+            a {
+                font-size: 1.25rem;
+            }
+        }
+
+        @content;
+    }
+}

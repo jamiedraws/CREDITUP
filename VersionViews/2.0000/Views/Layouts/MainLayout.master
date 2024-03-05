@@ -1,0 +1,258 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<ClientSiteViewData>" %>
+<%@ Import Namespace="Dtm.Framework.ClientSites" %>
+<%@ Import Namespace="CREDITUP.UIComponents" %>
+<%@ Import Namespace="CREDITUP.Utils" %>
+<%@ Import Namespace="CREDITUP.Navigation" %>
+
+<% 
+	var getFacebookImage = SettingsManager.ContextSettings["SocialPlugins.Facebook.OpenGraphImage"];
+	var getTwitterImage = SettingsManager.ContextSettings["SocialPlugins.Twitter.OpenGraphImage"]; 
+
+	var isStartPage = DtmContext.Page.IsStartPageType;
+
+	NavigationList sitemap = (ViewData["Sitemap"] as Sitemap ?? new Sitemap()).SitemapList;
+	NavigationItem app = sitemap.GetItemById("app");
+	var showAppIcons = sitemap.HasItem(app);
+	var howLink = sitemap.GetItemById("how-it-works");
+
+	string productName = SettingsManager.ContextSettings["Label.ProductName"];
+%>
+
+<!DOCTYPE html>
+<html class="dtm" lang="en">
+
+	<head>
+
+		<title><%= Model.PageTitle %></title>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="<%= Model.PageMetaDescription %>">
+	    <meta name="keywords" content="<%= Model.PageMetaKeywords %>">
+		<% var androidThemeBarColor = SettingsManager.ContextSettings["AndroidThemeBarColor", "#ffffff"]; %>
+		<meta name="theme-color" content="<%= androidThemeBarColor %>">
+
+		<!-- // Open Graph Metadata -->
+		<meta property="og:title" content="<%= Model.PageTitle %>">
+		<meta property="og:type" content="website">
+		<meta property="og:description" content="<%= Model.PageMetaDescription %>">
+		<meta property="og:url" content="<%= DtmContext.Domain.FullDomainOfferVersionUrl(DtmContext.PageCode) %>">
+		<meta property="og:image" content="<%= getFacebookImage %>">
+
+		<!-- // Twitter Metadata  -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="<%= Model.PageTitle %>">
+		<meta name="twitter:description" content="<%= Model.PageMetaDescription %>">
+		<meta name="twitter:image" content="<%= getTwitterImage %>">
+		<meta name="twitter:domain" content="<%= DtmContext.Domain.FullDomainOfferVersionUrl(DtmContext.PageCode) %>">
+
+		<%
+			var mainSeoDomain = DtmContext.CampaignDomains
+				.Where(cd => cd.IsSEO).FirstOrDefault() 
+				?? DtmContext.CampaignDomains
+				.Where(cd => cd.IsIndexable).FirstOrDefault() 
+				?? DtmContext.Domain;
+
+			string canonicalUrl = DtmContext.PageCode.Equals("Index") 
+				? mainSeoDomain.FullDomainContext 
+				: mainSeoDomain.FullDomainCustomPathContext(DtmContext.Page.PageAlias) + DtmContext.ApplicationExtension;
+
+			canonicalUrl = canonicalUrl.Replace("http://", "https://");
+		%>
+
+	    <% if (DtmContext.IsProxyIpAddress || DtmContext.CampaignDomains.Any(d => d.DomainId == DtmContext.DomainId && d.Domain.ToLower().Contains("dtmstage"))) { %>
+
+	        <meta name="robots" content="noindex, nofollow">
+
+	    <% } else { %>
+
+	        <meta name="google-site-verification" content="<%= Model.PageMetaVerify %>">
+            <meta name="msvalidate.01" content="617F9E44E7841BBC8E57FE0772BB9DD9">
+	        <link rel="canonical" href="<%= canonicalUrl %>">
+
+	    <% } %>
+
+		<link rel="preconnect" href="https://use.typekit.net/" crossorigin>
+        <link rel="dns-prefetch" href="https://use.typekit.net/">
+		<link rel="stylesheet" href="https://use.typekit.net/hhc5jfb.css">
+
+		<%
+			ResourceWriter resourceWriter = new ResourceWriter();
+			
+			Response.Write(resourceWriter.WriteStylePreload("css/Site2/style.css"));
+			Response.Write(resourceWriter.WriteLink("css/Site2/style.css"));
+			Response.Write(resourceWriter.WriteScript("js/Site2/app.es5.js"));
+		%>
+
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="theme-color" content="#ffffff">
+		<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0118/2532.js" async="async"></script>
+		<asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+
+	</head>
+
+	<body class="dtm__in">
+
+		<% Html.RenderPartial("Header", Model); %>
+
+		<%
+			OrderButton orderButton = new OrderButton();
+		%>
+
+		<main aria-labelledby="main-title" class="view hero section">
+			<div id="main" class="view__anchor"></div>
+			<div class="view__in section__contain">
+				<div class="hero__group">
+					<div class="hero__photo">
+						<div class="view__scroll">
+							<picture>
+								<source srcset="/images/Site2/guy-with-truck-desktop.webp" media="(min-width: 74.375rem)" type="image/webp">
+								<source srcset="/images/Site1/guy-with-truck.webp" media="(max-width: 74.375rem)" type="image/webp">
+								<source srcset="/images/Site2/guy-with-truck-desktop.jpg" media="(min-width: 74.375rem)">
+								<source srcset="/images/Site1/guy-with-truck.jpg" media="(max-width: 74.375rem)">
+								<img width="705" height="478" src="/images/Site1/guy-with-truck.jpg" alt="A guy standing in front of a truck">
+							</picture>
+							<div class="hero__bkg-text">
+								<h1 id="main-title" class="hero__title">
+									The Quick, Easy Way<br>
+									to get the credit<br>
+									you need. fast!
+								</h1>
+								<small>Member FDIC. Loans subject to approval</small>
+							</div>
+						</div>
+					</div>
+					<div class="hero__form" <%= orderButton.ApplyAttributes() %>>
+						<asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<section aria-label="Features" class="view list-video section">
+			<div id="features" class="view__anchor"></div>
+			<div class="view__in section__in">
+				<div class="section__block">
+					<div class="list-video__group">
+						<div class="list-video__item">
+							<ul class="list-video__list">
+								<li>No Fees</li>
+								<li>Lower<br>Interest<br>Rates</li>
+								<li>Banked<br>In the USA</li>
+							</ul>
+							<%--<p class="list-video__footer">We&rsquo;re 5Star Bank, a full-service community bank based in Colorado, member FDIC. The best there is in Credit Building.</p>--%>
+						</div>
+						<div class="list-video__video">
+							<div class="video contain contain--video">
+								<iframe src="https://player.vimeo.com/video/786293007?h=2471619c44&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="<%= productName %> 60 TV spot" width="637" height="358" loading="lazy"></iframe>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section aria-labelledby="download-app-title" class="view text-with-button <% if (!showAppIcons) { %>text-with-button--center<% } %> section">
+			<div id="download-app" class="view__anchor"></div>
+			<div class="view__in section__in">
+				<div class="text-with-button__container">
+					<div class="text-with-button__group">
+						<div class="text-with-button__header">
+							<h2 id="download-app-title" class="text-with-button__title">
+								<span>Struggling with</span> 
+								<span>low credit or no credit?</span>
+								<b>You need a lift!</b>
+							</h2>
+							<hr>
+						</div>
+						<div class="text-with-button__text">
+							<p>We&rsquo;re 5Star Bank, a full-service community bank based in Colorado, member FDIC. The best there is in Credit Building.</p>
+							<p>Over 100 million people in the US struggle with low or NO credit. <small>*Source: Experian 2/2022</small></p>
+							<p><b><%= productName %></b>, is the way up, with no fees, lower interest rates and banked in the USA. <b><%= productName %></b> by 5Star Bank - Welcome to the simplest way to save, and build the credit you need.</p>
+							<p>We want you to succeed! Watch your savings and credit score grow through your account portal. Enter how much money you’d like to save over the term you choose, and <b><%= productName %></b> calculates your total loan amount and monthly payment. Your first payment and monthly thereafter will be due 30 days past the day your <b><%= productName %></b> account was created. Funds from your <b><%= productName %></b> loan will be placed in a savings account in your name. This savings account will be used as the collateral for your loan. Your savings account cannot be accessed until the total loan amount is paid in full.  After you have made all loan payments and you have paid the loan in full, you can decide to keep the funds in your savings account or request to close your savings account and have the funds sent to you.</p>
+							<p><a href="<%= howLink.Page %>" title="How It Works">Click HERE</a> to get more information on how the program works.</p>
+
+							<% if (isStartPage) { %>
+							<div class="text-with-button__button">
+								<%= orderButton.CreateHTML() %>
+							</div>
+							<% } %>
+						</div>
+						<% if (showAppIcons) { %>
+						<picture class="text-with-button__picture">
+							<source srcset="/images/Site1/iphone.webp" type="image/webp">
+							<img src="/images/Site1/iphone.png" alt="iPhone device showing the home screen" loading="lazy" width="272" height="450">
+						</picture>
+						<div class="text-with-button__action">
+							<h3 class="text-with-button__callout">Download App <b>Today!</b></h3>
+							<a href="https://apps.apple.com/us/app/creditup-by-5star-bank/id6448131930" class="text-with-button__button" target="_blank" aria-labelledby="apple-app-image" id="apple-app-download">
+								<img id="apple-app-image" src="/images/Site1/apple-app-button.svg" alt="Download on the Apple App Store" loading="lazy" width="120" height="40">
+							</a>
+							<a href="https://play.google.com/store/apps/details?id=com.fivestar.macedon.creditup.android" class="text-with-button__button" target="_blank" aria-labelledby="google-play-image" id="google-play-app-download">
+								<img id="google-play-image" src="/images/Site1/google-play-button.png" alt="Get it on Google play" loading="lazy" width="135" height="40">
+							</a>
+						</div>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<section aria-labelledby="customer-reviews-title" class="view review section">
+			<div id="reviews" class="view__anchor"></div>
+			<div class="view__in section__in">
+				<div class="section__block">
+					<div class="review__group">
+						<header class="review__header">
+							<h2 id="customer-reviews-title" class="review__title">Five Star Reviews</h2>
+							<svg class="stars" id="stars" x="0px" y="0px" viewBox="0 0 137 26">
+								<polygon points="26.8,10.4 16.8,10.2 13.5,0.8 10.2,10.2 0.3,10.4 8.2,16.5 5.3,26 13.5,20.4 21.7,26 18.9,16.5"/>
+								<polygon points="54.2,10.4 44.3,10.2 41,0.8 37.7,10.2 27.8,10.4 35.6,16.5 32.8,26 41,20.4 49.2,26 46.3,16.5"/>
+								<polygon points="81.7,10.4 71.8,10.2 68.5,0.8 65.2,10.2 55.2,10.4 63.1,16.5 60.3,26 68.5,20.4 76.7,26 73.8,16.5"/>
+								<polygon points="109.2,10.4 99.3,10.2 96,0.8 92.7,10.2 82.7,10.4 90.6,16.5 87.8,26 96,20.4 104.2,26 101.3,16.5"/>
+								<polygon points="136.7,10.4 126.8,10.2 123.5,0.8 120.1,10.2 110.2,10.4 118.1,16.5 115.3,26 123.5,20.4 131.6,26 128.8,16.5"/>
+							</svg>
+						</header>
+						<figure class="review__figure">
+							<picture>
+								<img src="/images/Site1/review-1.jpg" alt="Guy standing in front of a truck" width="350" height="213" loading="lazy">
+							</picture>
+							<blockquote>Better Credit got me a better rate on my new truck loan.</blockquote>
+							<figcaption>Joseph</figcaption>
+						</figure>
+						<figure class="review__figure">
+							<picture>
+								<img src="/images/Site1/review-2.jpg" alt="A family standing together" width="350" height="213" loading="lazy">
+							</picture>
+							<blockquote>We started our own business and I love that we can keep track of our credit on the go.</blockquote>
+							<figcaption>Jonathan &amp; Keri</figcaption>
+						</figure>
+						<figure class="review__figure">
+							<picture>
+								<img src="/images/Site1/review-3.jpg" alt="A couple standing together" width="350" height="213" loading="lazy">
+							</picture>
+							<blockquote>To get the right house for our family we needed to improve our credit.</blockquote>
+							<figcaption>Travis &amp; Shona</figcaption>
+						</figure>
+						<% if (isStartPage) { %>
+						<div class="review__footer">
+							<%= orderButton.CreateHTML() %>
+						</div>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<% Html.RenderPartial("Footer", Model); %>
+
+	</body>
+
+</html>
+

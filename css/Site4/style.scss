@@ -1,0 +1,16 @@
+// interfaces
+@use "interfaces/app";
+@use "interfaces/page";
+@use "interfaces/form";
+
+@include app.critical {
+}
+
+@include page.base {
+}
+
+@include page.index;
+@include page.faq;
+@include page.confirmation;
+
+@include form.lead;

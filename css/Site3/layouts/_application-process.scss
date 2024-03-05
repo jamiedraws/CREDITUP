@@ -1,0 +1,245 @@
+$select: ".application-process" !default;
+
+// config
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/space";
+@use "Shared/scss/templates/base/abstracts/burst";
+@use "./../abstracts/text";
+@use "./../abstracts/box";
+
+@mixin base {
+    #{$select} {
+        --radius-box-space: 1.5rem;
+
+        @include fonts.base-em(18);
+
+        b,
+        a {
+            color: var(--color-first);
+            font-weight: bold;
+        }
+
+        &__grid {
+            display: grid;
+            grid-template-areas: "header download-app" "step-list download-app" "footer download-app";
+            align-items: center;
+            justify-content: space-evenly;
+            grid-template-columns: 38em max-content;
+            gap: var(--radius-box-space);
+            padding-block: 3rem;
+        }
+
+        &__header {
+            grid-area: header;
+
+            @include space.between-flow-elements($gap: 1rem) {
+            }
+        }
+
+        &__title {
+            font-size: clamp(fonts.cascade-em(30), 5vw, fonts.cascade-em(40));
+            line-height: 1;
+            font-weight: 800;
+        }
+
+        &__step {
+            @include fonts.base-rem(16);
+
+            h3 {
+                text-transform: uppercase;
+                color: var(--color-first);
+                font-weight: 700;
+                font-size: fonts.cascade-em(18);
+            }
+        }
+
+        &__step-list {
+            grid-area: step-list;
+            max-width: max-content;
+
+            list-style: none;
+
+            @include box.radius-with-shadow;
+            padding: var(--radius-box-space) 1.5rem;
+
+            counter-reset: application-step;
+
+            > li::before {
+                counter-increment: application-step;
+                content: counter(application-step);
+
+                @include burst.circle(
+                    $size: 1.75em,
+                    $background: var(--color-second)
+                );
+            }
+
+            > li::after {
+                content: "";
+                width: queries.cascade-em(36);
+                height: queries.cascade-em(40);
+            }
+
+            > li::before,
+            > li::after {
+                order: -1;
+                flex-shrink: 0;
+            }
+
+            > li:not(:last-child) {
+                border-bottom: 2px solid rgb(12 82 140 / 20%);
+                padding-block-end: var(--radius-box-space);
+            }
+
+            > li:not(:first-child) {
+                padding-block-start: var(--radius-box-space);
+            }
+
+            > li {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
+                &:nth-child(1)::after {
+                    background: url(/images/Site3/icon-paper.svg) no-repeat;
+                }
+
+                &:nth-child(2)::after {
+                    background: url(/images/Site3/icon-cursor.svg) no-repeat;
+                }
+
+                &:nth-child(3)::after {
+                    background: url(/images/Site3/icon-bank.svg) no-repeat;
+                }
+            }
+        }
+
+        &__footer {
+            grid-area: footer;
+            max-width: max-content;
+
+            @include space.between-flow-elements($gap: 1rem) {
+            }
+        }
+
+        &__note {
+            @include box.border;
+        }
+
+        &__download-app {
+            grid-area: download-app;
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--radius-box-space);
+
+            max-width: 20em;
+            box-sizing: content-box;
+            padding: var(--radius-box-space) var(--radius-box-space) 0;
+
+            @include box.radius-with-shadow;
+        }
+
+        &__picture {
+            grid-area: picture;
+
+            max-width: queries.em(272);
+        }
+
+        &__buttons {
+            grid-area: buttons;
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--radius-box-space);
+            align-items: center;
+            justify-content: center;
+        }
+
+        &__callout {
+            grid-area: callout;
+
+            flex-basis: 12em;
+
+            @include fonts.base-em(25);
+
+            font-weight: 800;
+            text-transform: uppercase;
+            line-height: 0.9;
+
+            color: var(--color-first);
+
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            &::before {
+                display: block;
+                width: 2em;
+                padding: 0.3em;
+                line-height: 0;
+                border-radius: 0.3em;
+
+                content: url(/images/Site1/logo-arrow-box.svg);
+                background: var(--color-first);
+
+                font-size: 3.5ch;
+            }
+
+            b {
+                font-size: 3.7ch;
+
+                color: var(--color-second);
+            }
+        }
+
+        @media all and (max-width: queries.get(section-max)) {
+            &__grid {
+                grid-template-areas: "header" "step-list" "footer" "download-app";
+                justify-content: center;
+                grid-template-columns: minmax(auto, 38em);
+            }
+
+            &__download-app {
+                display: grid;
+                grid-template-areas:
+                    "callout picture"
+                    "buttons picture";
+
+                max-width: max-content;
+            }
+
+            &__callout {
+                align-self: end;
+
+                max-width: 12em;
+            }
+
+            &__buttons {
+                align-self: start;
+            }
+
+            &__picture {
+                max-width: 10em;
+            }
+        }
+
+        @media all and (max-width: queries.set(600)) {
+            &__download-app {
+                grid-template-areas: "callout" "buttons" "picture";
+                justify-items: center;
+                justify-self: center;
+            }
+
+            &__picture {
+                display: none;
+            }
+        }
+
+        @content;
+    }
+}

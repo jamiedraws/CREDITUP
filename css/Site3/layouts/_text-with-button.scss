@@ -1,0 +1,216 @@
+$select: ".text-with-button" !default;
+
+// config
+@use "./../config/queries";
+@use "./../config/fonts";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/space";
+@use "Shared/scss/templates/base/abstracts/group";
+
+@mixin base {
+    #{$select} {
+        b {
+            color: var(--color-first);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        &__header {
+            flex-basis: 100%;
+
+            @include space.between-flow-elements($gap: 0.75rem) {
+            }
+        }
+
+        &__container {
+            border: solid #ccc;
+            border-width: 1px 0;
+
+            padding: 2rem 0 0;
+        }
+
+        &__group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        &__picture {
+            align-self: flex-end;
+
+            max-width: queries.em(272);
+        }
+
+        &__action {
+            align-self: center;
+            flex-basis: 20em;
+
+            text-align: center;
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+
+            margin: 1rem 0;
+        }
+
+        &__title {
+            @include fonts.base-em(28);
+
+            font-weight: 800;
+            line-height: 1;
+            text-transform: uppercase;
+            text-align: center;
+
+            padding-bottom: 1rem;
+
+            b {
+                font-weight: inherit;
+                line-height: 1;
+            }
+        }
+
+        &__text {
+            flex-basis: 28em;
+
+            margin: 1.5rem;
+
+            @include fonts.base-em(18);
+
+            @include space.between-flow-elements($gap: 0.75rem) {
+            }
+
+            small {
+                display: block;
+            }
+
+            hr {
+                margin: 1.5rem 0;
+                background: #ccc;
+                border: none;
+                height: 1px;
+            }
+        }
+
+        &__button {
+            margin-top: 1rem;
+        }
+
+        &__callout {
+            flex-basis: 100%;
+
+            @include fonts.base-em(35);
+
+            font-weight: 800;
+            text-transform: uppercase;
+            line-height: 0.9;
+
+            color: var(--color-first);
+
+            display: flex;
+            flex-direction: column;
+
+            &::before {
+                display: block;
+                width: 2em;
+                padding: 0.4em;
+                line-height: 0;
+                border-radius: 0.5em;
+
+                margin: auto auto 0.9em;
+
+                content: url(/images/Site1/logo-arrow-box.svg);
+                background: var(--color-first);
+            }
+
+            b {
+                font-size: fonts.cascade-em(80);
+
+                color: var(--color-second);
+            }
+        }
+
+        &--center {
+            text-align: center;
+            #{$select} {
+                &__title {
+                    display: block;
+                    margin-bottom: 0.5em;
+                    span,
+                    b {
+                        display: inline;
+                    }
+                    b {
+                        font-size: 1em;
+                    }
+                }
+                &__text {
+                    flex-basis: 100%;
+                    hr {
+                        display: none;
+                    }
+                    p {
+                        max-width: 38em;
+                        margin-left: auto;
+                        margin-right: auto;
+                    }
+                }
+            }
+        }
+
+        @media all and (max-width: queries.set(1230)) {
+            &__group {
+                justify-content: space-evenly;
+
+                max-width: 42em;
+                margin: auto;
+            }
+
+            &__text {
+                flex-basis: 100%;
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+
+        @media all and (max-width: queries.set(680)) {
+            &__action {
+                flex-basis: 100%;
+            }
+
+            &__picture {
+                order: 1;
+            }
+        }
+
+        @media all and (max-width: queries.set(550)) {
+            &__title {
+                font-size: 1.6em;
+            }
+
+            &__text &__button {
+                a {
+                    display: flex;
+                }
+            }
+        }
+
+        @content;
+    }
+}
+
+@mixin has-app-download {
+    #{$select} {
+        &--has-app-download {
+            #{$select} {
+                &__header {
+                }
+            }
+
+            @content;
+        }
+    }
+}

@@ -1,0 +1,90 @@
+$select: ".blockquote-card" !default;
+
+// config
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/space";
+@use "Shared/scss/templates/base/abstracts/background";
+@use "./../abstracts/text";
+
+@mixin base {
+    #{$select} {
+        --offset-amount: 2rem;
+
+        margin-block-start: var(--offset-amount);
+
+        &__card {
+            display: grid;
+            grid-template-areas: "picture blockquote" "picture figcaption";
+            grid-template-columns: max-content 29.5ch;
+            align-items: center;
+            justify-content: space-evenly;
+            gap: 2rem;
+
+            @include fonts.base-em(20);
+            font-style: italic;
+            font-weight: 500;
+            line-height: 1.35;
+
+            @include background.color-map(
+                $background-color: var(--color-first-a),
+                $text-color: var(--color-first)
+            ) {
+            }
+        }
+
+        &__picture {
+            grid-area: picture;
+
+            margin-block-start: calc(var(--offset-amount) * -1);
+        }
+
+        &__blockquote {
+            grid-area: blockquote;
+            align-self: end;
+        }
+
+        &__figcaption {
+            grid-area: figcaption;
+            align-self: start;
+
+            font-weight: 700;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        &__name {
+        }
+
+        &__title {
+            font-size: fonts.cascade-em(20);
+        }
+
+        @media all and (max-width: queries.get(section-max)) {
+            margin-block-start: 0;
+
+            &__card {
+                grid-template-areas: "blockquote blockquote" "figcaption picture";
+                grid-template-columns: minmax(min-content, 20ch) minmax(
+                        min-content,
+                        queries.cascade-em(275)
+                    );
+                justify-content: center;
+                padding-inline: 1rem;
+            }
+
+            &__blockquote {
+                margin-block-start: 2rem;
+                margin-block-end: 1rem;
+            }
+
+            &__figcaption {
+            }
+        }
+
+        @content;
+    }
+}

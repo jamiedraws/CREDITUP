@@ -1,0 +1,111 @@
+$select: ".nav" !default;
+
+// config
+@use "./../config/queries";
+
+// layouts
+@use "Shared/scss/templates/base/layouts/nav" with (
+    $colors: (
+        text: white,
+        background: var(--color-second),
+        button-close: black
+    ),
+    $mq: (
+        container-min: queries.get(nav-min),
+        container-max: queries.get(nav-max)
+    )
+);
+
+// abstracts
+@use "./../abstracts/background";
+@use "./../abstracts/text";
+
+@mixin base {
+    @include nav.base {
+        text-transform: uppercase;
+        font-weight: 500;
+
+        &__in {
+            padding: 0;
+        }
+
+        &__headline {
+            @include text.main-header;
+        }
+
+        &__link {
+            line-height: 1;
+        }
+    }
+
+    @include nav.bar {
+        &__logo {
+            display: none;
+        }
+
+        &__link {
+            padding: 1em;
+        }
+
+        &__logo {
+            font-size: 0.5em;
+        }
+
+        &__headline {
+            display: none;
+        }
+    }
+
+    @include nav.drawer {
+        &__logo {
+            background: white;
+        }
+
+        &__in > &__logo {
+            max-width: 8rem;
+        }
+
+        &__pane &__logo {
+            margin: 0;
+            padding: 2rem;
+
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            flex-basis: 100%;
+        }
+
+        &__pane &__logo > a {
+            max-width: 8em;
+        }
+
+        &__in > &__headline {
+            padding-left: 1em;
+            font-size: 0.7em;
+            flex-grow: 1;
+
+            > b {
+                color: currentColor;
+            }
+        }
+
+        &__headline {
+            font-size: 0.75em;
+
+            > b {
+                font-size: 2em;
+            }
+        }
+    }
+
+    #{$select} {
+        @media all and (max-width: queries.get(document-mobile-portrait)) {
+            &__link {
+                font-size: 1.25rem;
+            }
+        }
+
+        @content;
+    }
+}

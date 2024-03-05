@@ -1,0 +1,55 @@
+$select: ".video-quote-download-app" !default;
+
+// config
+@use "./../config/colors";
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/space";
+@use "Shared/scss/templates/base/abstracts/burst";
+@use "Shared/scss/templates/base/abstracts/group";
+
+@mixin base {
+    #{$select} {
+        --radius-box-space: 1.5rem;
+
+        &__grid {
+            display: grid;
+
+            align-items: start;
+            justify-content: space-evenly;
+
+            gap: var(--radius-box-space);
+            padding-block: 3rem;
+        }
+
+        &__video {
+            grid-area: video;
+        }
+
+        &__quote {
+            grid-area: quote;
+        }
+
+        &__download {
+            grid-area: download;
+        }
+
+        @media all and (min-width: queries.set(1201)) {
+            &__grid {
+                grid-template-areas: "video download" "video download" "quote download";
+                grid-template-columns: queries.em(672) max-content;
+                grid-template-rows: 1em;
+            }
+        }
+
+        @media all and (max-width: queries.set(1200)) {
+            &__grid {
+                grid-template-areas: "video" "quote" "download";
+            }
+        }
+
+        @content;
+    }
+}

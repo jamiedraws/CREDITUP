@@ -1,0 +1,18 @@
+$select: ".logo-text" !default;
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/group";
+
+@mixin base {
+    #{$select} {
+        img {
+            height: auto;
+        }
+
+        &__group {
+            display: block;
+        }
+
+        @content;
+    }
+}

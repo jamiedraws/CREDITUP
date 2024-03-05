@@ -1,0 +1,52 @@
+$select: ".button" !default;
+
+// config
+@use "./../config/colors";
+@use "./../config/fonts";
+
+// components
+@use "Shared/scss/templates/base/components/button" as _button;
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/button";
+
+@mixin base {
+    #{$select} {
+        @include button.container;
+        @include button.structure {
+            overflow: hidden;
+
+            text-decoration: none;
+            text-transform: uppercase;
+
+            font-size: fonts.rem(22);
+            font-family: inherit;
+            font-weight: 900;
+        }
+
+        @include _button.color-map(
+            $background-color: var(--color-second),
+            $text-color: white
+        );
+
+        padding: 0.5em 1.5em;
+        border: 0.3em double;
+
+        @content;
+    }
+}
+
+@mixin circular {
+    #{$select} {
+        &--circular {
+            @include button.capsule-circular;
+
+            border-radius: 100%;
+
+            #{$select} {
+            }
+
+            @content;
+        }
+    }
+}

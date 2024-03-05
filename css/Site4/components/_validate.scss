@@ -1,0 +1,24 @@
+$select: ".message" !default;
+
+// components
+@use "Shared/scss/templates/base/components/validate" with (
+    $select: $select,
+    $separator: "",
+    $font-size: 1em,
+    $colors: (
+        valid: currentColor,
+        invalid: currentColor
+    )
+);
+
+@mixin base {
+    @include validate.base;
+
+    #{$select} {
+        &__group {
+            order: 1;
+        }
+
+        @content;
+    }
+}

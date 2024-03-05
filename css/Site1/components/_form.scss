@@ -1,0 +1,195 @@
+$select: ".form" !default;
+
+// config
+@use "./../config/colors";
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// components
+@use "Shared/scss/templates/base/components/form";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/group";
+
+@mixin base {
+    @include form.base;
+
+    #{$select} {
+        &__field {
+            min-height: queries.em(50);
+            padding: 0.5rem;
+        }
+
+        @content;
+    }
+}
+
+@mixin field-label {
+    @include form.field-label;
+
+    #{$select} {
+        &__field-label {
+            align-items: flex-start;
+
+            label,
+            [role="alert"] {
+                font-size: fonts.em(14);
+            }
+
+            #{$select} {
+            }
+
+            @content;
+        }
+    }
+}
+
+@mixin label-combobox {
+    @include form.label-combobox;
+
+    #{$select} {
+        &--label-combobox {
+            @include group.gutter(0.5em);
+
+            #{$select} {
+                &__label {
+                    margin-right: 0;
+                }
+            }
+
+            @content;
+        }
+    }
+}
+
+@mixin icon-field-combobox {
+    @include form.icon-field-combobox;
+
+    #{$select} {
+        &--icon-field-combobox {
+            flex: 1;
+            justify-content: flex-start;
+            align-items: stretch;
+
+            #{$select} {
+                &__label {
+                    align-self: center;
+                }
+
+                &__field {
+                    padding: 0.5em;
+                }
+
+                &__input {
+                    flex-basis: 1em;
+                    width: 1em;
+                    font-size: inherit;
+                }
+
+                &__contain {
+                    font-size: 0.9em;
+                }
+            }
+
+            @content;
+        }
+    }
+}
+
+@mixin checkbox {
+    #{$select} {
+        @include form.checkbox($size: 2em);
+
+        &--checkbox {
+            #{$select} {
+                &__label {
+                    flex: 1;
+                }
+            }
+
+            @content;
+        }
+    }
+}
+
+@mixin radio {
+    #{$select} {
+        @include form.radio($size: 2em);
+
+        &--radio {
+            #{$select} {
+                &__label {
+                    flex: 1;
+                }
+
+                &__text {
+                    color: colors.get(primary);
+                }
+
+                &__desc {
+                    display: block;
+                    font-size: fonts.em(22);
+                    font-weight: 900;
+                    font-style: italic;
+                    text-transform: uppercase;
+                }
+            }
+
+            @content;
+        }
+    }
+}
+
+@mixin field-icon {
+    @include form.field-icon;
+
+    #{$select} {
+        &--field-icon {
+            #{$select} {
+            }
+
+            @content;
+        }
+    }
+}
+
+@mixin select {
+    @include form.select;
+
+    #{$select} {
+        &--select {
+            #{$select} {
+                &__button {
+                    width: 4rem;
+                }
+            }
+
+            @content;
+        }
+    }
+}
+
+@mixin inline-combobox-label {
+    @include form.inline-combobox-label;
+
+    #{$select} {
+        &--inline-combobox-label {
+            #{$select} {
+            }
+
+            @content;
+        }
+    }
+}
+
+@mixin cvv {
+    #{$select} {
+        &__cvv &__link {
+            font-size: inherit;
+        }
+
+        &__cvv &__field {
+            flex-basis: 8rem;
+        }
+    }
+}

@@ -1,0 +1,84 @@
+@use "sass:math";
+
+$base: 1 !default;
+$scroll-offset: 2em !default;
+
+// config
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// layouts
+@use "Shared/scss/templates/base/layouts/document";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/background";
+
+@mixin base {
+    @include document.base;
+
+    h1 {
+        font-size: fonts.rem(40);
+    }
+
+    h2,
+    legend {
+        font-size: fonts.rem(40);
+    }
+
+    h3 {
+        font-size: fonts.rem(25);
+    }
+
+    a[href^="mailto:"] {
+        word-break: break-all;
+    }
+
+    ol {
+        list-style: decimal;
+    }
+
+    input {
+        line-height: inherit;
+    }
+
+    fieldset {
+        border: 0;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+@function get-scroll-offset($element-height: 100) {
+    @return calc(#{queries.em($element-height)} + #{$scroll-offset});
+}
+
+@mixin root {
+    --font-family-first: proxima-nova, sans-serif;
+
+    --color-body-copy: #333333;
+    --color-first: #004a87;
+    --color-second: #76bc21;
+
+    scroll-behavior: smooth;
+    scroll-padding-top: get-scroll-offset(48);
+
+    @media all and (max-width: queries.get(nav-max)) {
+        scroll-padding-top: get-scroll-offset(79);
+    }
+
+    font-size: #{$base}rem;
+
+    @media all and (max-width: queries.set(800)) {
+        font-size: clamp(#{math.div($base, 2)}rem, 3.5vw, #{$base}rem);
+    }
+}
+
+@mixin body {
+    font: fonts.rem(16) var(--font-family-first);
+    line-height: 1.45;
+
+    @include background.color-map(
+        $background-color: white,
+        $text-color: var(--color-body-copy)
+    );
+}

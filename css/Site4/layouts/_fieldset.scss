@@ -1,0 +1,132 @@
+$select: ".fieldset" !default;
+
+// config
+@use "./../config/colors";
+@use "./../config/fonts";
+@use "./../config/queries";
+
+// abstracts
+@use "Shared/scss/templates/base/abstracts/group";
+@use "Shared/scss/templates/base/abstracts/space";
+@use "Shared/scss/templates/base/abstracts/divider-line";
+@use "./../abstracts/background";
+@use "./../abstracts/box";
+
+$size: 0.25rem;
+
+@mixin base {
+    #{$select} {
+        &__group {
+            @include group.contain($size);
+            @include group.flexchild(1 1 12em);
+        }
+
+        &__group > &__group {
+            margin: 0;
+        }
+
+        &__take-all {
+            flex-basis: 100%;
+
+            &:not(:last-child) {
+                border-bottom: 1px solid;
+            }
+
+            &:not(:first-child) {
+                border-top: 1px solid;
+            }
+
+            &:last-child {
+                text-align: center;
+                padding: 2rem 1rem;
+            }
+        }
+
+        &__take-row {
+            flex-basis: 100%;
+        }
+
+        &__disclaimer {
+            @include box.border;
+            margin-inline: -1rem;
+        }
+
+        &__title {
+            font-size: fonts.em(34.7);
+            font-weight: 800;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        &__text {
+            font-size: 1.5em;
+            text-transform: capitalize;
+        }
+
+        &__content {
+            @include space.between-flow-elements;
+        }
+
+        &__actions {
+            @include group.contain-flex(1rem);
+            justify-content: center;
+        }
+
+        &__divider-line {
+            @include divider-line.base;
+            margin: 0;
+
+            @include divider-line.column;
+
+            @media all and (max-width: queries.set(600)) {
+                @include divider-line.row;
+            }
+        }
+
+        &__action {
+            @include space.between-flow-elements(0.5rem);
+        }
+
+        @media all and (max-width: queries.set(700)) {
+            &__title {
+                font-size: 1.75em;
+            }
+        }
+
+        @content;
+    }
+}
+
+@mixin signup {
+    #{$select} {
+        &--signup {
+            #{$select} {
+                &__title {
+                    text-align: left;
+
+                    display: flex;
+                    gap: 1rem;
+                    padding: 0 0.5em 1em;
+
+                    &::before {
+                        flex: 0 0 1.2em;
+
+                        content: url(/images/Site1/logo-arrow-box.svg);
+
+                        transform: translateY(5%);
+                    }
+                }
+            }
+
+            @media all and (min-width: queries.set(1190)) {
+                #{$select} {
+                    &__title {
+                        padding: 1.25em 0.25em 0.75em;
+                    }
+                }
+            }
+
+            @content;
+        }
+    }
+}

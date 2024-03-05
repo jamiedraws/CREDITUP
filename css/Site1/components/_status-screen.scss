@@ -1,0 +1,14 @@
+$select: ".status-screen" !default;
+
+// components
+@use "Shared/scss/templates/base/components/status-screen";
+
+@mixin initialize {
+    @include status-screen.initialize;
+
+    #{$select} {
+        z-index: 20;
+
+        @content;
+    }
+}
